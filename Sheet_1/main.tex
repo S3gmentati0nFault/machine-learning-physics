@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\newcommand{\gss}{\mathcal{N}}
+\newcommand{\gexp}[1]{\frac{1}{\sqrt{2\pi} \sigma_{#1}} e^{\frac{(x - \mu_{#1})^2}{2\sigma_{#1}^2}}}
+
+\title{Machine learning for physics \\ \large Sheet 1}
+\author{Alessandro Biagiotti \& Mario Massimo}
+\date{October 2023}
+
+\begin{document}
+\maketitle
+\section{Exercise 1}
+\begin{align*}
+    D_{KL}[\mathcal{N}_1, \mathcal{N}_2] &= \int_{-\infty}^{+\infty}{\gss_1 \cdot \ln{\frac{\gss_1}{\gss_2}} dx} =\\
+    &= \int_{-\infty}^{+\infty}{\gexp{1} \cdot \left(\ln{\frac{\sigma_2}{\sigma_1}} - \frac{(x - \mu_1)^2}{2\sigma_1^2} + \frac{(x - \mu_2)^2}{2\sigma_2^2}\right)dx} =\\
+    &= \ln{\frac{\sigma_2}{\sigma_1}} - \int{\gss_1\frac{(x - \mu_1)^2}{2\sigma_1^2}dx} + \int{\gss_1\frac{(x - \mu_2)^2}{2\sigma_2^2}dx} =\\
+    &= \ln{\frac{\sigma_2}{\sigma_1}} - \int{\gss_1\frac{x^2}{2\sigma_1^2}dx} + \int{\gss_1\frac{2x\mu_1}{2\sigma_1^2}dx} - \int{\gss_1\frac{\mu_1^2}{2\sigma_1^2}dx} \\
+    &+ \int{\gss_1\frac{x^2}{2\sigma_2^2}dx} - \int{\gss_1\frac{2x\mu_2}{2\sigma_2^2}dx} + \int{\gss_1\frac{\mu_2^2}{2\sigma_2^2}dx} =\\
+    &= \ln{\frac{\sigma_2}{\sigma_1}} - \frac{<x^2> - 2<x>\mu_1 + \mu_1^2}{2\sigma_1^2} + \frac{<x^2> - 2<x>\mu_2 + \mu_2^2}{2\sigma_2^2} =\\
+    &= \ln{\frac{\sigma_2}{\sigma_1}} - \frac{\sigma_1^2 + \mu_1^2 - 2\mu_1^2 + \mu_1^2}{2\sigma_1^2} + \frac{\sigma_1^2 + \mu_1^2 - 2\mu_1\mu_2 + \mu_2^2}{2\sigma_2^2} =\\
+    &= \ln{\frac{\sigma_2}{\sigma_1}} - \frac{1}{2} + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2}
+\end{align*}
+\end{document}
