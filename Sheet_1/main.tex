@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{amsmath}
+\usepackage{hyperref}
 
 \newcommand{\gss}{\mathcal{N}}
 \newcommand{\gexp}[1]{\frac{1}{\sqrt{2\pi} \sigma_{#1}} e^{\frac{(x - \mu_{#1})^2}{2\sigma_{#1}^2}}}
@@ -22,4 +23,137 @@
     &= \ln{\frac{\sigma_2}{\sigma_1}} - \frac{\sigma_1^2 + \mu_1^2 - 2\mu_1^2 + \mu_1^2}{2\sigma_1^2} + \frac{\sigma_1^2 + \mu_1^2 - 2\mu_1\mu_2 + \mu_2^2}{2\sigma_2^2} =\\
     &= \ln{\frac{\sigma_2}{\sigma_1}} - \frac{1}{2} + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2}
 \end{align*}
+Clearly, if $\mu_1 = \mu_2, \sigma^2_1 = \sigma^2_2 \implies  D_{KL}[\mathcal{N}_1, \mathcal{N}_2] = 0$.
+
+\section{Exercise 2}
+
+\subsection{Point a}
+To prove that
+\begin{equation*}
+    x = G^{-1}(F(r))
+\end{equation*}
+we can begin by saying the following
+\begin{equation*}
+    \int_{-\infty}^{+\infty}{f(y)dy} = 1 = \int_{-\infty}^{+\infty}{g(z)dz}
+\end{equation*}
+Since $f$ and $g$ must be normalized. Then we manipulate the integrals:
+
+\begin{align*}
+    \int_{-\infty}^{+\infty}{f(y)dy} &- \int_{-\infty}^{+\infty}{g(z)dz} = 0 \\
+    \int_{-\infty}^{+\infty}{\left(f(y)-g(z) \frac{dz}{dy}\right)dy} &= 0 \implies f(y) dy = g(z) dz
+\end{align*}
+Integrating we obtain:
+
+\begin{equation*}
+    F(r) = \int_{-\infty}^{r}{f(y)dy} = \int_{-\infty}^{x}{g(z)dz} = G(x) \\
+    \implies x = G^{-1}(F(r))    
+\end{equation*}
+
+If $G$ is invertible.
+\subsection{Point b}
+\label{Point b}
+To generate a random value according to distribution $g_i$ using a uniformly distributed value $r$ we compute the integral of the distribution to get the Cumulative Distribution Function, set it equal to $r$ and then invert it.\\
+\textbf{Function 1}
+\begin{align*}
+    g_1(x) &= 3x^2, x \in [0,1]\\
+    G(x) &= \int_{0}^{x}{g_1(x)dx} = x^3\\
+    G(x) &= r \implies \hspace{4pt} x = \sqrt[3]{r}
+\end{align*}
+\textbf{Function 2}
+\begin{align*}
+    g_2(x) &= e^{-x}, x > 0 \\
+     G(x) &= \int_{0}^{x}{g_2(x)dx} = 1-e^{-x} \\
+     G(x) &= r \implies \hspace{4pt} x = -\ln({1-r})=-\ln{r}
+\end{align*}
+\textbf{Function 3}
+\begin{align*}
+   g_3(x) &= \mathcal{N}_{0,1}(x) \\
+   G(x) = \int_{-\infty}^{x}{\mathcal{N}_{0,1}(x)dx}&=\int_{-\infty}^{0}{\mathcal{N}_{0,1}(x)dx}+\int_{0}^{x}{\mathcal{N}_{0,1}(x)dx} = \\
+   &= \frac{1}{2} + \frac{erf(\frac{x}{\sqrt{2}})}{2} \\
+   G(x) = r &\implies \hspace{4pt} x = \sqrt{2} \cdot erfinv(2r-1)
+\end{align*}
+\textbf{Function 4}\\
+Generate a random variable according to distribution $g_4$ is not possible with this method because its Cumulative Distribution Function, $G_4(x)=\frac{2(2yLi_2(-e^{-y})+2Li_3(-e^{-y})+y^2(-ln(e^{-y+1})))}{3\zeta(3)} \Big|_0^x$, is not invertible.
+
+
+\subsection{Point c}
+Unlike the previous method, rejection sampling allows us to generate random variables according to every possible distribution. If we're dealing with functions that don't have an invertible CDF, compared to approximating the value of an integral and inverting a function, it's computationally simpler to face the problem simply calculating a large quantity of points and checking whether their height is less than an arbitrary value associated with the function we want to approximate. \\
+The cons of this method are the higher computational time and its inefficiency (a large number of sampled points are rejected).
+
+\subsection{Point d}
+A faster method to generate random variable according to Gaussian distribution is the Box-Muller transform. Given two random uniformly distributed variable $r,R$, we can generate two independent random variables with a standard normal distribution ($\mu=0, \sigma^2=1$) using these relations:
+\begin{align}
+    x_1=\sqrt{-2\ln{r}}\cdot \cos{2\pi R}
+    \label{Box-Muller}
+\end{align}
+
+\begin{align}
+    x_2=\sqrt{-2\ln{r}}\cdot \sin{2\pi R}
+    \label{Box-MUller2}
+\end{align}
+
+\subsection*{Compare running times}
+ A comparison between inverse transform and rejection sampling method running times for given distributions in Tab.\ref{tab:my_label} shows as the rejection sampling is tens (or even hundreds) times slower than the inverse transfrom method. \\
+Sampling random numbers according to Gaussian distribution with the Box-Muller method takes half of the time required by the inverse transform method. In particular it takes $0.0031 s$ using relation \ref{Box-Muller} and $0.0018 s$ using relation \ref{Box-MUller2}.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c|c}
+    & \textbf{Inverse transform} & \textbf{Rejection sampling} \\
+    \hline
+    $g_1$ & 0.0006  & 0.1715  \\
+    $g_2$ & 0.0011  & 0.1911 \\
+    $g_3$ & 0.0072  & 0.2231 \\
+    $g_4$ & n.d. & 0.3129 \\
+    \end{tabular}
+    \caption{Running time for generating random number according to distributions defined in Sec.\ref{Point b} (in seconds)}.
+    \label{tab:my_label}
+\end{table}
+
+\section{Exercise 3}
+ Let's take another rejection region $\omega_T$ from a generic test $T$.\\ Defining $\int_R{p(x|H_i)dx}=P_i(R),i=0,1$ we can write the size $P_0(R) \equiv \alpha$ and the power $P_1(R) \equiv 1-\beta$. The goal is to show that $P_1(\omega)>P_1(\omega_T)$ with the assumption that the test $T$ has the same size, 
+ \begin{equation}
+     P_0(\omega)=P_0(\omega_T)
+     \label{P01}
+ \end{equation}\\
+ We rewrite the relation for the probabilities:
+
+ \begin{equation}
+     P_i(\omega)=P_i(\omega \cap \omega_T)+P_i(\omega \cap \omega_T^C)
+     \label{Pi1}
+ \end{equation}
+
+ \begin{equation}
+     P_i(\omega_T)=P_i(\omega \cap \omega_T)+P_i(\omega^C \cap \omega_T)
+     \label{Pi2}
+ \end{equation}
+
+From eq. \ref{P01},\ref{Pi1} and \ref{Pi2} it follows that 
+\begin{equation}
+    P_0(\omega \cap \omega_T^C)=P_0(\omega^C \cap \omega_T)
+    \label{P02}
+\end{equation}
+Now we use the last equation with the property of the LR test and its rejection region:
+
+\begin{equation*}
+    P_1(\omega \cap \omega_T^C)=\int_{\omega \cap \omega_T}{p(x|H_1)dx} > t_0 \int_{\omega \cap \omega_T}{p(x|H_0)dx} = 
+\end{equation*}
+
+\begin{equation*}
+    = t_0 P_0(\omega \cap \omega_T) = t_0 P_0(\omega^C \cap \omega_T) = \int_{\omega^C \cap \omega_T}{p(x|H_0)dx}
+\end{equation*}
+Since the last result is within $\omega^C$ we can write:
+
+\begin{equation*}
+    \int_{\omega^C \cap \omega_T}{p(x|H_0)dx} > t_0 \int_{\omega^C \cap \omega_T}{p(x|H_1)dx}=P_1{\omega^C \cap \omega_T}
+\end{equation*}
+
+Using eq.\ref{Pi1} and \ref{Pi2} we get:
+
+\begin{align*}
+    P_1(\omega \cap \omega_T^C) & > P_1(\omega^C \cap \omega_T) \\
+    \implies & P_1(\omega) > P_1(\omega_T)
+\end{align*}
+So we proved that the LR test gives the highest power.
 \end{document}
+
