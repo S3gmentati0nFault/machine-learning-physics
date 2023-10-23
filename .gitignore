@@ -6,5 +6,4 @@
 *.synctex.gz
 *.out
 
-./Sheet_1/.ipynb_checkpoints/
-
+Sheet_1/.ipynb_checkpoints/
