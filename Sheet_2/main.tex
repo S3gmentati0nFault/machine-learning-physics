@@ -27,7 +27,7 @@ What we want to know is simpy $\cprob{\gamma}{target}$ thus we just start from B
 \begin{equation}
     \cprob{\gamma}{target} = \frac{\cprob{target}{\gamma} \cdot \prob{\gamma}}{\prob{target}}
 \end{equation}
-We do not know the probability of hitting the target direction, but we know thwo different conditional events that describe all of the possible cases we are interested in. Thanks to the law of total probability we can conclude the following:
+We do not know the probability of hitting the target direction, but we know two different conditional events that describe all of the possible cases we are interested in. Thanks to the law of total probability we can conclude the following:
 \begin{equation}
     \prob{target} = \sum_n{\cprob{target}{B_n} \cdot \prob{B_n}}
 \end{equation}
@@ -42,7 +42,17 @@ To complete the exercise:
 \end{equation*}
 Thus the probability of identifying correctly $\gamma$-rays amidst background is around 51\%.
 \pagebreak
-\section{Exercise 2}
-\pagebreak
 \section{Exercise 3}
+\subsection{a}
+\begin{equation*}
+    - log(p(data|\theta))= - \left(-\frac{log(2\pi \sigma^2)}{2} - \frac{\sum_{i=1}^N p_i - p(V_{m,i},\theta)}{2 \sigma^2}\right) \propto 
+   + \frac{\sum_{i=1}^N p_i - p(V_{m,i},\theta)}{2 \sigma^2}
+\end{equation*}
+
+The expression for the negative log-likelihood is, out of constant, the one used in a $\chi^2$ test with the same error for every point. Minimizing it is then reduced to minimize
+
+\begin{equation*}
+    \sum_{i=1}^N p_i - p(V_{m,i},\theta)
+\end{equation*}
+    
 \end{document}
