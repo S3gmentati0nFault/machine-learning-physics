@@ -45,14 +45,14 @@ Thus the probability of identifying correctly $\gamma$-rays amidst background is
 \section{Exercise 3}
 \subsection{a}
 \begin{equation*}
-    - log(p(data|\theta))= - \left(-\frac{log(2\pi \sigma^2)}{2} - \frac{\sum_{i=1}^N p_i - p(V_{m,i},\theta)}{2 \sigma^2}\right) \propto 
-   + \frac{\sum_{i=1}^N p_i - p(V_{m,i},\theta)}{2 \sigma^2}
+    - log(p(data|\theta))= - \left(-\frac{log(2\pi \sigma^2)}{2} - \frac{\sum_{i=1}^N (p_i - p(V_{m,i},\theta))^2}{2 \sigma^2}\right) \propto 
+   + \frac{\sum_{i=1}^N (p_i - p(V_{m,i},\theta))^2}{2 \sigma^2}
 \end{equation*}
 
-The expression for the negative log-likelihood is, out of constant, the one used in a $\chi^2$ test with the same error for every point. Minimizing it is then reduced to minimize
+The expression for the negative log-likelihood is, out of constant, the one used in a $\chi^2$ test with the same error for every point. The minimization problem is then reduced to minimize
 
 \begin{equation*}
-    \sum_{i=1}^N p_i - p(V_{m,i},\theta)
+    \sum_{i=1}^N (p_i - p(V_{m,i},\theta))^2
 \end{equation*}
     
 \end{document}
