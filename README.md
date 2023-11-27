@@ -11,6 +11,7 @@ argument is).
 Credits for part of the work go to Mario Massimo, who is helping me solve the exercises
 <br>
 <h2>Work in progress:</h2>
+
 - [ ] Review exercise 2 of sheet 3
 
 - [ ] Review exercise 3 of sheet 3
