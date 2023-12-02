@@ -6,4 +6,6 @@
 *.synctex.gz
 *.out
 
+Sheet_6/data06
+
 */.ipynb_checkpoints/
