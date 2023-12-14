@@ -13,7 +13,7 @@ Credits for part of the work go to Mario Massimo, who is helping me solve the ex
 <h2>Work in progress:</h2>
 
 - [x] Review exercise 2 of sheet 3
-- [ ] Review exercise 3 of sheet 3
+- [x] Review exercise 3 of sheet 3
 - [ ] Review sheet 4
 - [ ] Review exercise 2 of sheet 5
 - [ ] Review exercise 3 of sheet 5
